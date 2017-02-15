@@ -461,6 +461,7 @@ angular.module('mentio', [])
                 search: '&mentioSearch',
                 select: '&mentioSelect',
                 items: '=mentioItems',
+				mentionFilter: '=mentioItemsFilter',
                 triggerChar: '=mentioTriggerChar',
                 forElem: '=mentioFor',
                 parentScope: '=mentioParentScope'
@@ -482,8 +483,9 @@ angular.module('mentio', [])
                 };
 
                 // callable both with controller (menuItem) and without controller (local)
-                this.selectItem = $scope.selectItem = function (item) {
+                this.selectItem = $scope.selectItem = function (item, event) {
                     var text = $scope.select({
+						event: event,
                         item: item
                     });
                     if (typeof text.then === 'function') {
@@ -492,6 +494,14 @@ angular.module('mentio', [])
                     } else {
                         $scope.parentMentio.replaceText(text);
                     }
+                };
+                
+                // this is for our new filter buttons on top
+				this.filterItems = $scope.selectItem = function (item, event) {
+                    var text = $scope.select({
+						event: event,
+                        item: item
+                    });
                 };
 
                 $scope.activateNextItem = function () {
